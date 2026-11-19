@@ -10,6 +10,7 @@ tile.localised_description = description
 tile.order = "a[artificial]-a[tier-1]-0[gravel-path]"
 tile.minable = {mining_time = 0.1, result = "stone"}
 tile.walking_speed_modifier = 1.2
+tile.decorative_removal_probability = 1
 tile.tint = {r = 0.75, g = 0.75, b = 0.75, a = 1}
 tile.map_color = {r = 100, g = 100, b = 100}
 

@@ -1,0 +1,7 @@
+---------------------------------------------------------------------------------------------------
+Version: 1.28.2
+Date: 2026-11-18
+  Features:
+    - Added Gravel Path. Place ordinary stone directly on land, one stone per tile, without crafting or research.
+    - Gravel Path increases walking speed by 20%. Mine the path to recover the stone.
+    - Placing Gravel Path clears ground decorations such as stumps and small rocks from the paved tiles.
