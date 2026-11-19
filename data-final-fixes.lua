@@ -241,3 +241,4 @@ if #generated > 0 then
 end
 
 require("shipping-packer")
+require("gravel-path")
