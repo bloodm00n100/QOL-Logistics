@@ -68,8 +68,7 @@ quality in the recipe picker and use cargo and empty containers of that quality.
 Hold ordinary stone and place it on land like stone paving to make a Gravel
 Path, using one stone per tile. No crafting or research is needed. Walk on it
 at 120% of normal speed (20% faster), and mine it to recover stone. It uses
-gray-tinted base-game stone-path graphics and clears ground decorations such
-as small rocks and stumps when placed.
+gray-tinted base-game stone-path graphics.
 
 ## License
 
