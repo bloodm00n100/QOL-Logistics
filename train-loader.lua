@@ -30,7 +30,7 @@ local function platform_picture()
   return picture
 end
 
-return function(belt, loader, item, unlocks, icons)
+return function(belt, loader, item, icons)
   local name = train_prefix .. belt.name
   local label = {"adaptive-belt-loaders.train-tier", loader.localised_name[2]}
   if belt.name == "transport-belt" then
@@ -98,13 +98,16 @@ return function(belt, loader, item, unlocks, icons)
   local recipe = {
     type = "recipe",
     name = name,
-    enabled = not next(unlocks),
+    enabled = false,
     energy_required = 2,
     ingredients = {{type = "item", name = item.name, amount = 6}},
     results = {{type = "item", name = name, amount = 1}}
   }
-  for _, technology in pairs(unlocks) do
-    technology.effects[#technology.effects + 1] = {type = "unlock-recipe", recipe = name}
+  -- List the starter tier on Railway. Higher tiers need two unlocks.
+  local railway = data.raw.technology.railway
+  if belt.name == "transport-belt" and railway then
+    railway.effects = railway.effects or {}
+    railway.effects[#railway.effects + 1] = {type = "unlock-recipe", recipe = name}
   end
   data:extend({outlet, platform, buffer, platform_item, recipe})
 end

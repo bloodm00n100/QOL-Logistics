@@ -1,3 +1,6 @@
+local diverters = require("belt-diverter-control")
+require("belt-diverter-gui")
+
 -- Apply existing research when adding the mod to a save.
 local function unlock_researched_recipes()
   for _, force in pairs(game.forces) do
@@ -20,6 +23,22 @@ end
 local platform_prefix = "adaptive-train-loader-"
 local outlet_prefix = platform_prefix .. "outlet-"
 local storage_prefix = platform_prefix .. "storage-"
+
+local function update_train_loader_recipes(force)
+  local railway = force.technologies.railway
+  for name, recipe in pairs(force.recipes) do
+    if name:sub(1, #platform_prefix) == platform_prefix then
+      local ingredient = recipe.ingredients[1]
+      local matching_loader = ingredient and force.recipes[ingredient.name]
+      recipe.enabled = railway ~= nil and railway.researched
+        and matching_loader ~= nil and matching_loader.enabled
+    end
+  end
+end
+
+script.on_event({defines.events.on_research_finished, defines.events.on_research_reversed}, function(event)
+  update_train_loader_recipes(event.research.force)
+end)
 
 local function upgrade_platform(legacy)
   local registration = script.register_on_object_destroyed(legacy)
@@ -106,8 +125,38 @@ local function place_train_loader(event)
   platform.rotatable = false
 end
 
+local function grant_circuit_research(force)
+  if not settings.startup["qol-logistics-start-with-circuit-research"].value then
+    return
+  end
+
+  for _, name in ipairs{"circuit-network", "advanced-combinators"} do
+    local technology = force.technologies[name]
+    if technology and not technology.researched then
+      technology.researched = true
+    end
+  end
+end
+
+local function grant_starting_research()
+  for _, force in pairs(game.forces) do
+    if force.name ~= "enemy" and force.name ~= "neutral" then
+      grant_circuit_research(force)
+    end
+  end
+end
+
+script.on_event(defines.events.on_force_created, function(event)
+  grant_circuit_research(event.force)
+end)
+
 script.on_init(function()
+  diverters.adopt()
+  grant_starting_research()
   unlock_researched_recipes()
+  for _, force in pairs(game.forces) do
+    update_train_loader_recipes(force)
+  end
   local names = {}
   for name, prototype in pairs(prototypes.entity) do
     if (prototype.type == "container" and name:sub(1, #storage_prefix) == storage_prefix)
@@ -130,7 +179,10 @@ script.on_event({
   defines.events.script_raised_built,
   defines.events.script_raised_revive,
   defines.events.on_entity_cloned
-}, place_train_loader)
+}, function(event)
+  diverters.register(event.destination or event.entity or event.created_entity)
+  place_train_loader(event)
+end)
 
 script.on_event(defines.events.on_object_destroyed, function(event)
   local platforms = storage.train_loaders
@@ -178,7 +230,12 @@ script.on_event("adaptive-train-loader-toggle", function(event)
 end)
 
 script.on_configuration_changed(function()
+  diverters.adopt()
+  grant_starting_research()
   unlock_researched_recipes()
+  for _, force in pairs(game.forces) do
+    update_train_loader_recipes(force)
+  end
   local legacy_names = {}
   for name, prototype in pairs(prototypes.entity) do
     if prototype.type == "simple-entity-with-owner" and name:sub(1, #platform_prefix) == platform_prefix then
@@ -194,4 +251,8 @@ script.on_configuration_changed(function()
   end
 end)
 
-script.on_event(defines.events.on_tick, require("train-buffer"))
+local update_train_buffers = require("train-buffer")
+script.on_event(defines.events.on_tick, function(event)
+  update_train_buffers(event)
+  diverters.tick()
+end)

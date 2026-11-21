@@ -3,7 +3,8 @@
 A Factorio 2.1 mod for the base game and Space Age. Put the ZIP, still zipped,
 in your Factorio mods folder, start Factorio, and enable QOL Logistics.
 
-## Craft and place a loader
+<details>
+<summary>Adaptive Belt Loader</summary>
 
 Every generated recipe makes one loader from one transport belt, one matching
 underground belt, and basic inserters. Divide the belt speed by the
@@ -20,7 +21,43 @@ the belt side toward the belt. Rotate the placed loader with R to switch the
 flow between the building and the belt. For machines, set the recipe so the
 loader knows which ingredients the machine can accept.
 
-## Modded belts
+</details>
+
+<details>
+<summary>Lane Sorter</summary>
+
+Craft a Lane Sorter from one splitter and one transport belt of the matching
+tier. The standard tier unlocks with Logistics. Faster and compatible modded
+tiers match their Adaptive Belt Loader's speed and research.
+
+Place it inline on a straight belt and open its settings.
+Select an item filter and choose its output side. For example, set **Stone**
+to the left to send stone left and iron ore (and any other unfiltered items)
+right. Lanes are relative to the direction the belt moves.
+
+</details>
+
+<details>
+<summary>Belt Diverter</summary>
+
+Craft a Belt Diverter from one Lane Sorter and one transport belt, both of
+the matching tier. The standard tier unlocks with Logistics. Other tiers match
+the speed and research of their Adaptive Belt Loader, including compatible
+modded belts. Place it inline, with its input receiving the mixed belt.
+Connect a straight belt or an underground belt entrance ahead. On the side you
+want to feed, place a parallel belt running either way or a belt pointing away
+from the diverter. Open the diverter and choose an item on a side output tile. In Alt
+mode, arrows point toward configured side outputs. Other items are balanced
+across both lanes ahead. Filtered items wait if the side belt is full.
+
+Enable **Round-robin side outputs** to send one filtered item alternately left
+and right. If only one side has room, matching items use that side. They wait
+if both sides are blocked. Other items still balance straight ahead.
+
+</details>
+
+<details>
+<summary>Modded belts</summary>
 
 The mod reads standard transport belt and underground belt prototypes during
 Factorio's final data stage. It matches speed and uses names, crafting
@@ -34,9 +71,14 @@ industrial housing artwork inspired by AAI Loaders.
 They operate without electricity or lubricant. They are designed for
 stationary machines and chests.
 
-## Train Loader
+</details>
 
-Craft one Train Loader from six matching Adaptive Belt Loaders. The platform
+<details>
+<summary>Train Loader</summary>
+
+Research Railway to unlock the Train Loader. Each tier becomes craftable once
+you also unlock its matching Adaptive Belt Loader. Craft one Train Loader from
+six matching Adaptive Belt Loaders. The platform
 is six tiles along a straight ground rail and two tiles deep. Rotate it before
 placing so its steel hoods face the rail. Center it on a stopped cargo wagon
 and connect up to six belts to the opposite edge.
@@ -51,7 +93,11 @@ unloading. In loading mode, point the feed belts toward the platform. Items
 pass through the buffer in either mode. Mine the platform to remove all six
 outlets together.
 
-## Shipping Packer
+</details>
+
+<details>
+<summary>Shipping Packer</summary>
+
 The Shipping Packer has three slots for Speed Modules.
 Packing and unpacking each take five seconds per container at base crafting speed.
 
@@ -63,12 +109,27 @@ recover the full stack and the empty container.
 Recipes support ordinary stackable, non-spoiling items. Select the desired
 quality in the recipe picker and use cargo and empty containers of that quality.
 
-## Gravel Path
+</details>
+
+<details>
+<summary>Gravel Path</summary>
 
 Hold ordinary stone and place it on land like stone paving to make a Gravel
 Path, using one stone per tile. No crafting or research is needed. Walk on it
 at 120% of normal speed (20% faster), and mine it to recover stone. It uses
-gray-tinted base-game stone-path graphics.
+gray-tinted base-game stone-path graphics and clears ground decorations such
+as small rocks and stumps when placed.
+
+</details>
+
+<details>
+<summary>Starting circuit research</summary>
+
+Circuit Network and Advanced Combinators follow normal research progression by
+default. To get both automatically, enable **Start with circuit research** under
+**Settings → Mod settings → Startup**. Existing saves keep completed research.
+
+</details>
 
 ## License
 

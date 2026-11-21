@@ -1,3 +1,7 @@
+local add_belt_diverter = require("belt-diverter")
+local diverter_by_belt = {}
+local add_lane_sorter = require("lane-sorter")
+local sorter_by_belt = {}
 local add_train_loader = require("train-loader")
 local prefix = "adaptive-belt-loader-"
 local template = data.raw["loader-1x1"]["loader-1x1"]
@@ -133,10 +137,10 @@ local function matching_underground(belt, belt_item)
   end
 end
 
-local function icon_layers(belt_item, housing_icon)
+local function icon_layers(belt_item, housing_icon, icon_size)
   local icons = {{
     icon = "__qol-logistics__/graphics/" .. housing_icon,
-    icon_size = 128
+    icon_size = icon_size or 128
   }}
   local belt_icons = table.deepcopy(belt_item.icons or {
     {icon = belt_item.icon, icon_size = belt_item.icon_size}
@@ -219,7 +223,10 @@ for _, belt_name in ipairs(sorted_keys(belts)) do
         local technology = unlocks[technology_name]
         technology.effects[#technology.effects + 1] = {type = "unlock-recipe", recipe = name}
       end
-      add_train_loader(belt, loader, item, unlocks, icon_layers(belt_item, "train-loader-icon.png"))
+      add_train_loader(belt, loader, item, icon_layers(belt_item, "train-loader-icon.png"))
+      sorter_by_belt[belt_name] = add_lane_sorter(belt, belt_item, unlocks, label[2], icons)
+      diverter_by_belt[belt_name] = add_belt_diverter(
+        belt, belt_item, unlocks, label[2], icon_layers(belt_item, "belt-diverter-icon.png", 64), sorter_by_belt[belt_name].name)
       generated[#generated + 1] = loader
       generated[#generated + 1] = item
       generated[#generated + 1] = recipe
@@ -233,6 +240,8 @@ for belt_name, loader in pairs(loader_by_belt) do
   local replacement = loader_by_belt[belts[belt_name].next_upgrade]
   if replacement then
     loader.next_upgrade = replacement.name
+    sorter_by_belt[belt_name].next_upgrade = sorter_by_belt[belts[belt_name].next_upgrade].name
+    diverter_by_belt[belt_name].next_upgrade = diverter_by_belt[belts[belt_name].next_upgrade].name
   end
 end
 
@@ -242,3 +251,4 @@ end
 
 require("shipping-packer")
 require("gravel-path")
+require("burner-generator")

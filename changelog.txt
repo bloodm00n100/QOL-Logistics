@@ -1,4 +1,17 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.29.4
+  Features:
+    - Added Lane Sorters that filter one item onto a chosen lane of a single belt.
+    - Added Belt Diverters that route filtered items to adjacent belts and balance other items across both lanes ahead.
+    - Diverters support parallel belts running either way, outward side belts, and underground belt entrances.
+    - Added a tile-based side picker, Alt-mode output arrows, and an optional round-robin mode for sending one item to both sides.
+    - Lane Sorters and Belt Diverters match base-game, Space Age, and compatible modded belt tiers.
+    - Added an opt-in startup setting to grant Circuit Network and Advanced Combinators.
+  Changes:
+    - Train Loaders now require Railway and the matching belt loader tier.
+  Graphics:
+    - Added animated Diverter tread beneath carried items, with a metal housing drawn above them.
+---------------------------------------------------------------------------------------------------
 Version: 1.28.2
 Date: 2026-11-18
   Features:

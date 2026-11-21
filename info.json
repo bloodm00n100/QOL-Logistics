@@ -1,6 +1,6 @@
 {
   "name": "qol-logistics",
-  "version": "1.28.2",
+  "version": "1.29.4",
   "title": "QOL Logistics",
   "author": "bloodm00n",
   "factorio_version": "2.1",
@@ -8,5 +8,5 @@
     "base >= 2.1",
     "? space-age"
   ],
-  "description": "Speed-matched belt loaders, buffered train loaders, and a Shipping Packer that compresses full stacks for rocket transport."
+  "description": "Speed-matched belt loaders, lane sorters and diverters, buffered train loaders, shipping packers, and gravel paths."
 }
